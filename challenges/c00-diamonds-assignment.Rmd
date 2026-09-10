@@ -60,15 +60,15 @@ In this first stage, you will explore the `diamonds` dataset and document your o
 ## TASK: Plot `price` vs `carat` below
 ## Your code here!
 
-ggplot(
-  data = diamonds
-) +
-  geom_point(
-    mapping = aes(
-      y = price,
-      x = carat
+diamonds %>%
+  ggplot(
+  ) +
+    geom_point(
+      mapping = aes(
+        y = price,
+        x = carat
+      )
     )
-  )
 ```
 
 **Observations**:
@@ -80,17 +80,21 @@ ggplot(
 ```{r q2-task}
 ## TASK: Plot `price`, `carat`, and `cut` below
 ## Your code here!
+# 
+# diamonds %>%
+#   ggplot(
+#   ) +
+#     geom_point(
+#       mapping = aes(
+#         y = price,
+#         x = carat,
+#         color = cut
+#       )
+#     )
 
-ggplot(
-  data = diamonds
-) +
-  geom_point(
-    mapping = aes(
-      y = price,
-      x = carat,
-      color = cut
-    )
-  )
+diamonds %>%
+  ggplot(aes(carat)) +
+  geom_histogram(bins = 120)
 ```
 
 **Observations**:

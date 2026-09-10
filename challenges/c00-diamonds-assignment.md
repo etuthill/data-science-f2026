@@ -99,15 +99,15 @@ document your observations.
 ## TASK: Plot `price` vs `carat` below
 ## Your code here!
 
-ggplot(
-  data = diamonds
-) +
-  geom_point(
-    mapping = aes(
-      y = price,
-      x = carat
+diamonds %>%
+  ggplot(
+  ) +
+    geom_point(
+      mapping = aes(
+        y = price,
+        x = carat
+      )
     )
-  )
 ```
 
 ![](c00-diamonds-assignment_files/figure-gfm/q1-task-1.png)<!-- -->
@@ -128,17 +128,21 @@ ggplot(
 ``` r
 ## TASK: Plot `price`, `carat`, and `cut` below
 ## Your code here!
+# 
+# diamonds %>%
+#   ggplot(
+#   ) +
+#     geom_point(
+#       mapping = aes(
+#         y = price,
+#         x = carat,
+#         color = cut
+#       )
+#     )
 
-ggplot(
-  data = diamonds
-) +
-  geom_point(
-    mapping = aes(
-      y = price,
-      x = carat,
-      color = cut
-    )
-  )
+diamonds %>%
+  ggplot(aes(carat)) +
+  geom_histogram(bins = 120)
 ```
 
 ![](c00-diamonds-assignment_files/figure-gfm/q2-task-1.png)<!-- -->
