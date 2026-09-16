@@ -40,10 +40,10 @@ software and reports.
 (You and your partner will edit the *TODO* items *separately* and
 *combine*, through the magic of *git*!)
 
-| Title             | Person   |
-|-------------------|----------|
-| *Forking* Partner | **TODO** |
-| *Merging* Partner | **TODO** |
+| Title             | Person              |
+|-------------------|---------------------|
+| *Forking* Partner | **Sascha Jalinous** |
+| *Merging* Partner | **TODO**            |
 
 *Note*: All instructions below are coded for either the *Forking*
 partner, the *Merging* partner, or *Both*. Note that you will both do
