@@ -1,6 +1,6 @@
 Gapminder
 ================
-(Your name here)
+Elias Tuthill
 2020-
 
 - [Grading Rubric](#grading-rubric)
@@ -307,7 +307,7 @@ gapminder %>%
 
 - There is an additional outlier in 2007 that wasn’t an outlier in 1952.
   I identified this as Haiti. It looks like a lot of countries have
-  increased gdpPercap from 1972 to 2007. However it also looks like the
+  increased gdpPercap from 1952 to 2007. However it also looks like the
   overall spread has increased as well.
 
 # Your Own EDA

@@ -1,6 +1,6 @@
 ---
 title: "Gapminder"
-author: "(Your name here)"
+author: "Elias Tuthill"
 date: 2020-
 output:
   github_document:
@@ -194,7 +194,7 @@ gapminder %>%
 
 **Observations**:
 
-- There is an additional outlier in 2007 that wasn't an outlier in 1952. I identified this as Haiti. It looks like a lot of countries have increased gdpPercap from 1972 to 2007. However it also looks like the overall spread has increased as well.
+- There is an additional outlier in 2007 that wasn't an outlier in 1952. I identified this as Haiti. It looks like a lot of countries have increased gdpPercap from 1952 to 2007. However it also looks like the overall spread has increased as well.
 
 # Your Own EDA
 
