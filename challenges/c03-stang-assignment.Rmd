@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|------------------|-----------------------------|-------------------------|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -78,7 +78,7 @@ df_stang_long <-
       names_sep = "_",
       names_transform = list(angle = as.integer)
     ) %>%
-    filter(E >= 0)
+    filter(E >= 0, nu >= 0)
     
 
 
@@ -118,6 +118,16 @@ print("Very good!")
 
 ```{r q2-task}
 ##
+df_stang_long %>%
+  distinct(alloy) 
+
+df_stang_long %>%
+  distinct(angle) 
+
+df_stang_long %>%
+  distinct(thick)
+
+
 ```
 
 **Observations**

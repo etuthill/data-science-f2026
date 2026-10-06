@@ -158,7 +158,7 @@ df_stang_long <-
       names_sep = "_",
       names_transform = list(angle = as.integer)
     ) %>%
-    filter(E >= 0)
+    filter(E >= 0, nu >= 0)
     
 
 
@@ -229,7 +229,39 @@ print("Very good!")
 
 ``` r
 ##
+df_stang_long %>%
+  distinct(alloy) 
 ```
+
+    ## # A tibble: 1 × 1
+    ##   alloy  
+    ##   <chr>  
+    ## 1 al_24st
+
+``` r
+df_stang_long %>%
+  distinct(angle) 
+```
+
+    ## # A tibble: 3 × 1
+    ##   angle
+    ##   <int>
+    ## 1     0
+    ## 2    45
+    ## 3    90
+
+``` r
+df_stang_long %>%
+  distinct(thick)
+```
+
+    ## # A tibble: 4 × 1
+    ##   thick
+    ##   <dbl>
+    ## 1 0.022
+    ## 2 0.032
+    ## 3 0.064
+    ## 4 0.081
 
 **Observations**
 
