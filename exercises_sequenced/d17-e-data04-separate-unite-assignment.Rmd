@@ -177,19 +177,19 @@ df_q2 <-
       values_to = "vals",
       cols = c("E00", "mu00", "E45", "mu45")
     ) %>%
-  separate(
-    col = "placeholder",
-    c("var", "angle"),
-    sep = -2,
-    convert = TRUE
-  ) %>%
-  pivot_wider(
-    names_from = "var",
-    values_from = "vals"
-  )
-
+    separate(
+      col = "placeholder",
+      into = c("var", "angle"),
+      sep = -2,
+      convert = TRUE
+    )  %>%
+    pivot_wider(
+      names_from = "var",
+      values_from = "vals"
+    )
 
 df_q2
+
 ```
 
 Use the following tests to check your work:
