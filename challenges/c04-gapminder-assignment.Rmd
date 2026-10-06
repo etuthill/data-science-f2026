@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|------------------|-----------------------------|-------------------------|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -75,12 +75,12 @@ gapminder %>%
 ## TASK: Find the largest and smallest values of `year` in `gapminder`
 year_max <- 
   gapminder %>%
-    pull(year) %>%
-    max()
+  pull(year) %>%
+  max()
 year_min <- 
   gapminder %>%
-    pull(year) %>%
-    min()
+  pull(year) %>%
+  min()
 ```
 
 Use the following test to check your work.
@@ -228,7 +228,7 @@ gapminder %>%
   ggplot(aes(year, ratio_gdp)) +
   geom_line() +
   geom_point() +
-  labs(title = "Gap Between Highest and Lowest GDP per Capita")  +
+  labs(title = "Ratio Between Highest and Lowest GDP per Capita")  +
   theme(plot.title = element_text(hjust = 0.5))
 
 
@@ -241,7 +241,7 @@ gapminder %>%
   ggplot(aes(year, ratio_lifeexp)) +
   geom_line() +
   geom_point() +
-  labs(title = "Gap Between Highest and Lowest Life Expectancy") +
+  labs(title = "Ratio Between Highest and Lowest Life Expectancy") +
   theme(plot.title = element_text(hjust = 0.5))
 
 check <-
@@ -255,6 +255,7 @@ gapminder %>%
   filter(country == "Rwanda") %>%
   ggplot(aes(year, lifeExp)) +
   geom_line() +
+  geom_point() +
   labs(title = "Rwanda Life Expectancy Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 # rwandian genocide
@@ -262,7 +263,8 @@ gapminder %>%
 gapminder %>%
   filter(country == "Kuwait") %>%
   ggplot(aes(year, gdpPercap)) +
-  geom_line() +
+  geom_line(color = "blue") +
+  geom_point(color = "blue") +
   labs(title = "Kuwait GDP per Capita Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 
@@ -285,9 +287,25 @@ gapminder %>%
   filter(country == "Cambodia") %>%
   ggplot(aes(year, lifeExp)) +
   geom_line() +
+  geom_point() +
   labs(title = "Cambodia Life Expectancy Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 # cambodian genocide
+
+
+# biggest and smallest without Kuwait
+
+gapminder %>%
+  filter(country != "Kuwait") %>%
+  group_by(year) %>%
+  summarize(
+    ratio_gdp = max(gdpPercap) / min(gdpPercap)
+  ) %>%
+  ggplot(aes(year, ratio_gdp)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Ratio Between Highest and Lowest GDP per Capita (no Kuwait)")  +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 - I started out by looking at the gaps between highest and lowest countries in GDP per capita and life expentency. Overall, there appears to be an downward trend in both ratios. With these, I noticed 3 significant spikes in the difference. In the GDP per capita plot, I noticed one spike at 1972 followed by a sharp drop in 1977. In the life expectancy plot, I see two spikes in 1977 and 1992. I pulled up the data for each of these years and sorted by the relevant variable. From that, I was able to pull out outliers. I found low outliers for both of the life expectancy ratio drops and the gdp ratio drop, and a high outlier for the spike in gdp ratio.

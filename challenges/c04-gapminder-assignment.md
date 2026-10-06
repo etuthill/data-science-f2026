@@ -134,12 +134,12 @@ gapminder %>%
 ## TASK: Find the largest and smallest values of `year` in `gapminder`
 year_max <- 
   gapminder %>%
-    pull(year) %>%
-    max()
+  pull(year) %>%
+  max()
 year_min <- 
   gapminder %>%
-    pull(year) %>%
-    min()
+  pull(year) %>%
+  min()
 ```
 
 Use the following test to check your work.
@@ -357,7 +357,7 @@ gapminder %>%
   ggplot(aes(year, ratio_gdp)) +
   geom_line() +
   geom_point() +
-  labs(title = "Gap Between Highest and Lowest GDP per Capita")  +
+  labs(title = "Ratio Between Highest and Lowest GDP per Capita")  +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -373,7 +373,7 @@ gapminder %>%
   ggplot(aes(year, ratio_lifeexp)) +
   geom_line() +
   geom_point() +
-  labs(title = "Gap Between Highest and Lowest Life Expectancy") +
+  labs(title = "Ratio Between Highest and Lowest Life Expectancy") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -391,6 +391,7 @@ gapminder %>%
   filter(country == "Rwanda") %>%
   ggplot(aes(year, lifeExp)) +
   geom_line() +
+  geom_point() +
   labs(title = "Rwanda Life Expectancy Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
@@ -403,7 +404,8 @@ gapminder %>%
 gapminder %>%
   filter(country == "Kuwait") %>%
   ggplot(aes(year, gdpPercap)) +
-  geom_line() +
+  geom_line(color = "blue") +
+  geom_point(color = "blue") +
   labs(title = "Kuwait GDP per Capita Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
@@ -434,6 +436,7 @@ gapminder %>%
   filter(country == "Cambodia") %>%
   ggplot(aes(year, lifeExp)) +
   geom_line() +
+  geom_point() +
   labs(title = "Cambodia Life Expectancy Over Time") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
@@ -442,7 +445,24 @@ gapminder %>%
 
 ``` r
 # cambodian genocide
+
+
+# biggest and smallest without Kuwait
+
+gapminder %>%
+  filter(country != "Kuwait") %>%
+  group_by(year) %>%
+  summarize(
+    ratio_gdp = max(gdpPercap) / min(gdpPercap)
+  ) %>%
+  ggplot(aes(year, ratio_gdp)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Ratio Between Highest and Lowest GDP per Capita (no Kuwait)")  +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
+
+![](c04-gapminder-assignment_files/figure-gfm/q5-task2-7.png)<!-- -->
 
 - I started out by looking at the gaps between highest and lowest
   countries in GDP per capita and life expentency. Overall, there
