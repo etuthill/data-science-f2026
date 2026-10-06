@@ -141,12 +141,17 @@ df_titanic %>% summarize(total = sum(n))
     according to the Titanic Wikipedia article.
 - If yes, what might account for those differences?
   - It’s likely that the records of the time were not perfect so it was
-    hard to know which list of people is accurate. In fact, the Sinking
-    of the Titanic Wikipedia article has a table that is different from
-    the one on the Titanic page, and has 2,201 people on it. Between
-    these tables, there’s a lot more differences than just having 7
-    extra people. This reinforces the idea that no dataset of the
-    Titanic passengers/crew is fully reliable.
+    hard to know which list of people is accurate. For example, some
+    people may have not been on the passenger or crew lists, cancelled
+    last minute, put down under slightly different names, or added to a
+    list after it was initially created. Records also could’ve been lost
+    or damaged during the sinking and its aftermath, making it difficult
+    to know exactly who was on board. In fact, the Sinking of the
+    Titanic Wikipedia article has a table that is different from the one
+    on the Titanic page, and has 2,201 people on it. Between these
+    tables, there’s a lot more differences than just having 7 extra
+    people. This reinforces the idea that no dataset of the Titanic
+    passengers/crew is fully reliable.
 
 ### **q3** Create a plot showing the count of persons who *did* survive, along with aesthetics for `Class` and `Sex`. Document your observations below.
 
@@ -159,10 +164,11 @@ df_titanic %>%
   ggplot(
     aes(
       x = Sex, 
-      fill = Class,
-      weight = n)
-    ) +
-  geom_bar()
+      y = n,
+      fill = Class
+    )
+  ) +
+  geom_col()
 ```
 
 ![](c01-titanic-assignment_files/figure-gfm/q3-task-1.png)<!-- -->
@@ -233,11 +239,14 @@ df_prop %>%
   ggplot(
     aes(
       x = Sex, 
-      fill = Class,
-      weight = Prop)
+      y = Prop,
+      fill = Class)
   ) +
-  geom_bar()
+  geom_col()
 ```
+
+    ## Warning: Removed 2 rows containing missing values or values outside the scale range
+    ## (`geom_col()`).
 
 ![](c01-titanic-assignment_files/figure-gfm/q4-task-1.png)<!-- -->
 
@@ -272,12 +281,16 @@ df_prop %>%
   ggplot(
     aes(
       x = Sex, 
-      fill = Class,
-      weight = Prop)
+      y = Prop,
+      fill = Class
+    )
   ) +
-  geom_bar() +
+  geom_col(position = "dodge") +
   facet_grid(Age ~ .)
 ```
+
+    ## Warning: Removed 2 rows containing missing values or values outside the scale range
+    ## (`geom_col()`).
 
 ![](c01-titanic-assignment_files/figure-gfm/q5-task-1.png)<!-- -->
 
