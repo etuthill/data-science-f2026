@@ -156,9 +156,8 @@ the count.
 
 Why might your table differ from Michelson’s? -
 
-My table is might be slightly different from Michelson’s because the
-values in the dataset may have been recorded or processed differently
-than Michelson’s measurements. 
+It appears that Michelson’s MeanVelocity values are the same values
+rounded to the nearest 10.
 
 The `Velocity` values in the dataset are the speed of light *in air*;
 Michelson introduced a couple of adjustments to estimate the speed of
@@ -320,7 +319,8 @@ of the error bounds.
 
 Differences - In the real data, it seems like there is more variability
 in mean toward the beginning of the month and as time passes, the
-measurements get more accurate. This is not seen in the simulated data.
+measurements get more precise with less variation. This is not seen in
+the simulated data.
 
 **q5** You have access to a few other variables. Construct a **at least
 three** visualizations of `VelocityVacuum` against these other factors.
