@@ -324,8 +324,6 @@ df_anti_pivot %>%
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.5-3-1.png)<!-- -->
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-2-1.png)<!-- -->
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1-1.png)<!-- -->
 
 ### **q2** Assess your visuals
 
