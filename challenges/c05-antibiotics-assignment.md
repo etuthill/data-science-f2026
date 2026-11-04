@@ -192,7 +192,7 @@ df_anti_pivot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.1-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.1-1-1.png)<!-- -->
 
 #### Visual 2 (All variables)
 
@@ -219,7 +219,7 @@ df_anti_pivot %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.2-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.2-1-1.png)<!-- -->
 
 #### Visual 3 (Some variables)
 
@@ -240,7 +240,7 @@ df_anti_pivot %>%
   scale_x_log10()
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.3-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.3-1-1.png)<!-- -->
 
 #### Visual 4 (Some variables)
 
@@ -271,7 +271,7 @@ df_anti_pivot %>%
   )
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.4-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.4-1-1.png)<!-- -->
 
 #### Visual 5 (Some variables)
 
@@ -297,7 +297,7 @@ df_anti_pivot %>%
     scale_y_log10()
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1-1-1.png)<!-- -->
 
 ``` r
 df_anti_pivot %>%
@@ -310,7 +310,7 @@ df_anti_pivot %>%
     scale_y_log10()
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-2.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-2-1.png)<!-- -->
 
 ``` r
 df_anti_pivot %>%
@@ -323,7 +323,9 @@ df_anti_pivot %>%
     scale_y_log10()
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-3.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-3-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-2-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1-1.png)<!-- -->
 
 ### **q2** Assess your visuals
 
