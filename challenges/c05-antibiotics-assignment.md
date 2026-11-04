@@ -185,10 +185,11 @@ df_anti_pivot
 
 ``` r
 df_anti_pivot %>%
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>%
   ggplot(aes(Antibiotic, bacteria, fill = log10(MIC))) +
-    geom_tile() +
-    facet_grid(~ gram) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  geom_tile() +
+  facet_wrap(~ gram, nrow = 2, scales = "free_y") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.1-1.png)<!-- -->
@@ -207,12 +208,15 @@ your other visuals.
 # WRITE YOUR CODE HERE
 
 df_anti_pivot %>%
-  ggplot(aes(MIC, bacteria)) +
-    geom_vline(xintercept = 0.1, linetype = "dashed") +
-    geom_point(aes(color = gram)) +
-    scale_x_log10() +
-    facet_wrap(~ Antibiotic) +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>%
+  ggplot(aes(x = MIC, y = bacteria)) +
+  geom_vline(xintercept = 0.1, linetype = "dashed") +
+  geom_point(
+    aes(color = Antibiotic), 
+    position = position_jitter(0, 0.2)) +
+  scale_x_log10() +
+  facet_wrap(~ gram, nrow = 2, scales = "free_y") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.2-1.png)<!-- -->
@@ -230,6 +234,7 @@ your other visuals.
 # WRITE YOUR CODE HERE
 df_anti_pivot %>%
   filter(Antibiotic == "neomycin") %>%
+  mutate(bacteria = fct_reorder(bacteria, MIC)) %>%
   ggplot(aes(MIC, bacteria, fill = gram)) +
   geom_col() +
   scale_x_log10()
@@ -256,9 +261,14 @@ df_anti_pivot %>%
     max_MIC = max(MIC), 
     .groups = "drop"
   ) %>%
-  ggplot(aes(y = reorder(bacteria, min_MIC),color = gram)) +
-    geom_errorbar(aes(xmin = min_MIC, xmax = max_MIC)) +
-    scale_x_log10() 
+  ggplot(aes(y = reorder(bacteria, min_MIC), color = gram)) +
+  geom_vline(xintercept = 0.1, linetype = "dashed") +
+  geom_errorbar(aes(xmin = min_MIC, xmax = max_MIC)) +
+  scale_x_log10() +
+  labs(
+    x = "MIC",
+    y = "Bacteria",
+  )
 ```
 
 ![](c05-antibiotics-assignment_files/figure-gfm/q1.4-1.png)<!-- -->
@@ -336,7 +346,7 @@ opportunity to think about why this is.**
 
 *Observations* - What is your response to the question above? - It seems
 like neomycin is effective for the most bacteria (9) and streptomycin
-for the least (5). Penicillin is in the middle with 6, which are notably
+for the least (4). Penicillin is in the middle with 5, which are notably
 all positive. For streptococcus, it seems like penicillin is the most
 effective, with neomycin coming in close second. For salmonella,
 neomycin is the only effective antibiotic from the three in the dataset.
@@ -345,12 +355,15 @@ none are effective. For proteus, neomycin and streptomycin barely make
 the cut and penicillin doesn’t. For mycobacterium and klebsiella, none
 make the cut. For diplococcus only penicillin is effective. For
 brucella, only neomycin is effective. For bacillus, all three are
-effective. And for aerobacter, none are effective. - Which of your
-visuals above (1 through 5) is **most effective** at helping to answer
-this question? - 2 - Why? - In visual 2, I had all the bacterias laid
-out with MIC categorized by drug in facets. I added an efficacy cutoff
-based on the 0.1 max value provided above. All this made it easy to look
-through and determine which drugs made the cutoff for each bacteria.
+effective. And for aerobacter, none are effective.
+
+\- Which of your visuals above (1 through 5) is **most effective** at
+helping to answer this question? - 2
+
+\- Why? - In visual 2, I had all the bacterias laid out with MIC
+categorized by drug in facets. I added an efficacy cutoff based on the
+0.1 max value provided above. All this made it easy to look through and
+determine which drugs made the cutoff for each bacteria.
 
 #### Guiding Question 2
 
@@ -361,17 +374,24 @@ and in 1984 *Streptococcus fecalis* was renamed *Enterococcus fecalis*
 > Why was *Diplococcus pneumoniae* was renamed *Streptococcus
 > pneumoniae*?
 
-*Observations* - What is your response to the question above? - The
-dataset alone is not enough to conclude the answer with enough
-certainty. However, it appears that Diplococcus pneumoniae often has a
-similar drug response to Streptococcus hemolyticus and Streptococcus
-viridians. The reason this doesn’t provide a certain answer is because a
-lot more goes into genus than just drug response. - Which of your
-visuals above (1 through 5) is **most effective** at helping to answer
-this question? - 5 - Why? - It shows similar relationships between the
-responses of the different bacteria. (I’m treating all three plots as
-one because I initially intended to use patchwork but it compressed the
-plots too much).
+*Observations* - What is your response to the question above? - On its
+own, the dataset is not enough to exactly know why Diplococcus
+pneumoniae was renamed Streptococcus pneumoniae. However, Diplococcus
+pneumoniae looks like it has similar MIC values to Streptococcus
+hemolyticus and Streptococcus viridans across the tested antibiotics.
+MIC is related to susceptibility to an antibiotic, which can be impacted
+by things like cell wall structure and other cell properties. This means
+that similar MIC patterns could point to similarities in some of these
+properties, giving a reason to look into whether these bacteria belong
+to the same genus. But MIC values alone cannot prove their relationship
+or explain the exact reason for the renaming.
+
+Which of your visuals above (1 through 5) is **most effective** at
+helping to answer this question? - 5
+
+Why? - It allows for direct comparison of the MIC values between pairs
+of antibiotics, making it easier to identify similarities in drug
+responses between different bacteria.
 
 # References
 
