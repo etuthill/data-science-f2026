@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -332,6 +332,7 @@ Compute the mean and standard deviation for `cases_per100k` and `deaths_per100k`
 ## TASK: Compute mean and sd for cases_per100k and deaths_per100k
 
 df_normalized %>%
+  filter(date == "2022-05-13") %>%
   summarise(
     mean_cases = mean(cases_per100k, na.rm = TRUE),
     sd_cases = sd(cases_per100k, na.rm = TRUE),
@@ -339,13 +340,12 @@ df_normalized %>%
     sd_deaths = sd(deaths_per100k, na.rm = TRUE)
   )
 
-
 ```
 
 - Which rows did you pick?
-  - All the rows with valid numbers (removed NA)
+  - All the rows with valid numbers (removed NA), from the date May 13, 2022.
 - Why?
-  - Missing values can't contrubute, so I chose to ignore missing values so they wouldn't interfere with the calculations.
+  - Missing values can't contrubute, so I chose to ignore missing values so they wouldn't interfere with the calculations. Additionally, I chose one date so that I can compare across counties on the same day, rather than all the data from different stages of the pandemic.
 
 ### **q7** Find and compare the top 10
 
@@ -354,15 +354,27 @@ Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of
 ```{r q7-task}
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 df_normalized %>%
-  arrange(desc(cases_per100k)) %>%
-  distinct(county, .keep_all = TRUE) %>%
-  filter(row_number() <= 10,)
+  filter(date == "2022-05-13") %>%
+  group_by(county, state) %>%
+  summarise(
+    population = population,
+    cases_per100k = mean(cases_per100k, na.rm = TRUE),
+  ) %>%
+  slice_max(cases_per100k, n = 10) %>%
+  arrange(desc(cases_per100k))
 
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
+
 df_normalized %>%
-  arrange(desc(deaths_per100k)) %>%
-  distinct(county, .keep_all = TRUE) %>%
-  filter(row_number() <= 10,)
+  filter(date == "2022-05-13") %>%
+  group_by(county, state) %>%
+  summarise(
+    population = population,
+    deaths_per100k = mean(deaths_per100k, na.rm = TRUE),
+  ) %>%
+  slice_max(deaths_per100k, n = 10) %>%
+  arrange(desc(deaths_per100k))
+
 
 ```
 
@@ -370,7 +382,7 @@ df_normalized %>%
 
 - For both cases and deaths per 100k, it seems like the top 10 were counties with very small populations. The populations range from 102 (I didn't know counties could be that small) to 18040 (still tiny). Interestingly, I don't see much overlap between the lists. I see that Loving made first on cases and eighth on deaths but that seems to be it. I'd be curious on the ages of the populations and if the ones that made the deaths list are higher. I'd also be curious to look at vaccination rates and see if any of these are near the bottom on that. If I remember correctly, by 2022 covid vaccines were pretty widespread, and I notice that a lot of these counties are in more conservative states which could contribute to having lower vaccination rates. That being said, I believe that the highest contributing factor is most likely the low population skewing the normalization because there are far fewer than 100,000 people in these counties.
 - When did these "largest values" occur?
-  - They all occurred in early 2022. I checked the latest date in the dataset, and it's 5/13/2022. The cases chart has 9/10 within a few days of that date, so I would be interested to see if the cases continued on an upward trend. The deaths are more scattered across the 3 months leading up to the cutoff.
+  - I chose to compare counties on May 13, 2022. This makes the comparisons consistent across counties, instead of picking each county's highest value from different points pandemic. That being said, the largest values occurred toward the end of the dataset, in early 2022. This makes sense because the case and death counts are cumulative. As a result, the values generally increase over time (excepting corrections).
 
 ## Self-directed EDA
 

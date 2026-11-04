@@ -541,6 +541,7 @@ include in your summaries,* and justify why!
 ## TASK: Compute mean and sd for cases_per100k and deaths_per100k
 
 df_normalized %>%
+  filter(date == "2022-05-13") %>%
   summarise(
     mean_cases = mean(cases_per100k, na.rm = TRUE),
     sd_cases = sd(cases_per100k, na.rm = TRUE),
@@ -552,13 +553,16 @@ df_normalized %>%
     ## # A tibble: 1 × 4
     ##   mean_cases sd_cases mean_deaths sd_deaths
     ##        <dbl>    <dbl>       <dbl>     <dbl>
-    ## 1      9975.    8449.        174.      159.
+    ## 1     24774.    6233.        375.      160.
 
 - Which rows did you pick?
-  - All the rows with valid numbers (removed NA)
+  - All the rows with valid numbers (removed NA), from the date May 13,
+    2022.
 - Why?
   - Missing values can’t contrubute, so I chose to ignore missing values
-    so they wouldn’t interfere with the calculations.
+    so they wouldn’t interfere with the calculations. Additionally, I
+    chose one date so that I can compare across counties on the same
+    day, rather than all the data from different stages of the pandemic.
 
 ### **q7** Find and compare the top 10
 
@@ -570,48 +574,75 @@ you found in q6. Note any observations.
 ``` r
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 df_normalized %>%
-  arrange(desc(cases_per100k)) %>%
-  distinct(county, .keep_all = TRUE) %>%
-  filter(row_number() <= 10,)
+  filter(date == "2022-05-13") %>%
+  group_by(county, state) %>%
+  summarise(
+    population = population,
+    cases_per100k = mean(cases_per100k, na.rm = TRUE),
+  ) %>%
+  slice_max(cases_per100k, n = 10) %>%
+  arrange(desc(cases_per100k))
 ```
 
-    ## # A tibble: 10 × 9
-    ##    date       county           state fips  cases deaths population cases_per100k
-    ##    <date>     <chr>            <chr> <chr> <dbl>  <dbl>      <dbl>         <dbl>
-    ##  1 2022-05-12 Loving           Texas 48301   196      1        102       192157.
-    ##  2 2022-05-11 Chattahoochee    Geor… 13053  7486     22      10767        69527.
-    ##  3 2022-05-11 Nome Census Area Alas… 02180  6245      5       9925        62922.
-    ##  4 2022-05-11 Northwest Arcti… Alas… 02188  4837     13       7734        62542.
-    ##  5 2022-05-13 Crowley          Colo… 08025  3347     30       5630        59449.
-    ##  6 2022-05-11 Bethel Census A… Alas… 02050 10362     41      18040        57439.
-    ##  7 2022-03-30 Dewey            Sout… 46041  3139     42       5779        54317.
-    ##  8 2022-05-12 Dimmit           Texas 48127  5760     51      10663        54019.
-    ##  9 2022-05-12 Jim Hogg         Texas 48247  2648     22       5282        50133.
-    ## 10 2022-05-11 Kusilvak Census… Alas… 02158  4084     14       8198        49817.
-    ## # ℹ 1 more variable: deaths_per100k <dbl>
+    ## `summarise()` has regrouped the output.
+    ## ℹ Summaries were computed grouped by county and state.
+    ## ℹ Output is grouped by county.
+    ## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+    ## ℹ Use `summarise(.by = c(county, state))` for per-operation grouping
+    ##   (`?dplyr::dplyr_by`) instead.
+
+    ## # A tibble: 3,086 × 4
+    ## # Groups:   county [1,932]
+    ##    county                   state        population cases_per100k
+    ##    <chr>                    <chr>             <dbl>         <dbl>
+    ##  1 Loving                   Texas               102       192157.
+    ##  2 Chattahoochee            Georgia           10767        69527.
+    ##  3 Nome Census Area         Alaska             9925        62922.
+    ##  4 Northwest Arctic Borough Alaska             7734        62542.
+    ##  5 Crowley                  Colorado           5630        59449.
+    ##  6 Bethel Census Area       Alaska            18040        57439.
+    ##  7 Dewey                    South Dakota       5779        54317.
+    ##  8 Dimmit                   Texas             10663        54019.
+    ##  9 Jim Hogg                 Texas              5282        50133.
+    ## 10 Kusilvak Census Area     Alaska             8198        49817.
+    ## # ℹ 3,076 more rows
 
 ``` r
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
+
 df_normalized %>%
-  arrange(desc(deaths_per100k)) %>%
-  distinct(county, .keep_all = TRUE) %>%
-  filter(row_number() <= 10,)
+  filter(date == "2022-05-13") %>%
+  group_by(county, state) %>%
+  summarise(
+    population = population,
+    deaths_per100k = mean(deaths_per100k, na.rm = TRUE),
+  ) %>%
+  slice_max(deaths_per100k, n = 10) %>%
+  arrange(desc(deaths_per100k))
 ```
 
-    ## # A tibble: 10 × 9
-    ##    date       county           state fips  cases deaths population cases_per100k
-    ##    <date>     <chr>            <chr> <chr> <dbl>  <dbl>      <dbl>         <dbl>
-    ##  1 2022-02-19 McMullen         Texas 48311   166      9        662        25076.
-    ##  2 2022-04-27 Galax city       Virg… 51640  2551     78       6638        38430.
-    ##  3 2022-03-10 Motley           Texas 48345   271     13       1156        23443.
-    ##  4 2022-04-20 Hancock          Geor… 13141  1577     90       8535        18477.
-    ##  5 2022-04-19 Emporia city     Virg… 51595  1169     55       5381        21725.
-    ##  6 2022-04-27 Towns            Geor… 13281  2396    116      11417        20986.
-    ##  7 2022-02-14 Jerauld          Sout… 46073   404     20       2029        19911.
-    ##  8 2022-03-04 Loving           Texas 48301   165      1        102       161765.
-    ##  9 2022-02-03 Robertson        Kent… 21201   570     21       2143        26598.
-    ## 10 2022-05-05 Martinsville ci… Virg… 51690  3452    124      13101        26349.
-    ## # ℹ 1 more variable: deaths_per100k <dbl>
+    ## `summarise()` has regrouped the output.
+    ## ℹ Summaries were computed grouped by county and state.
+    ## ℹ Output is grouped by county.
+    ## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+    ## ℹ Use `summarise(.by = c(county, state))` for per-operation grouping
+    ##   (`?dplyr::dplyr_by`) instead.
+
+    ## # A tibble: 3,086 × 4
+    ## # Groups:   county [1,932]
+    ##    county            state        population deaths_per100k
+    ##    <chr>             <chr>             <dbl>          <dbl>
+    ##  1 McMullen          Texas               662          1360.
+    ##  2 Galax city        Virginia           6638          1175.
+    ##  3 Motley            Texas              1156          1125.
+    ##  4 Hancock           Georgia            8535          1054.
+    ##  5 Emporia city      Virginia           5381          1022.
+    ##  6 Towns             Georgia           11417          1016.
+    ##  7 Jerauld           South Dakota       2029           986.
+    ##  8 Loving            Texas               102           980.
+    ##  9 Robertson         Kentucky           2143           980.
+    ## 10 Martinsville city Virginia          13101           946.
+    ## # ℹ 3,076 more rows
 
 **Observations**:
 
@@ -630,11 +661,13 @@ df_normalized %>%
   is most likely the low population skewing the normalization because
   there are far fewer than 100,000 people in these counties.
 - When did these “largest values” occur?
-  - They all occurred in early 2022. I checked the latest date in the
-    dataset, and it’s 5/13/2022. The cases chart has 9/10 within a few
-    days of that date, so I would be interested to see if the cases
-    continued on an upward trend. The deaths are more scattered across
-    the 3 months leading up to the cutoff.
+  - I chose to compare counties on May 13, 2022. This makes the
+    comparisons consistent across counties, instead of picking each
+    county’s highest value from different points pandemic. That being
+    said, the largest values occurred toward the end of the dataset, in
+    early 2022. This makes sense because the case and death counts are
+    cumulative. As a result, the values generally increase over time
+    (excepting corrections).
 
 ## Self-directed EDA
 
