@@ -197,7 +197,8 @@ square $x \in [0, 1]$ and $y \in [0, 1]$.
 
 ``` r
 ## TASK: Choose a sample size and generate samples
-n <- 100  # Choose a sample size
+set.seed(101)
+n <- 1000  # Choose a sample size
 df_q1 <- data.frame(
   x = runif(n, min = 0, max = 1),
   y = runif(n, min = 0, max = 1))  # Generate the data
@@ -317,7 +318,7 @@ df_q3
 ```
 
     ##   pi_est
-    ## 1   3.32
+    ## 1    3.1
 
 Use the following to check that you’ve used the correct variable names.
 (NB. This does not check correctness.)
@@ -398,7 +399,7 @@ df_q4 %>%
 
 - What is a range of plausible values, based on the sampling
   distribution you’ve generated?
-  - ~2.75-3.85
+  - ~2.95-3.3
 
 ### **q5** Bootstrap percentile confidence interval
 
@@ -424,7 +425,7 @@ df_q5
     ## # A tibble: 1 × 2
     ##   pi_lo pi_up
     ##   <dbl> <dbl>
-    ## 1  3.04   3.6
+    ## 1  3.00  3.20
 
 ### **q6** CLT confidence interval
 
@@ -450,7 +451,7 @@ df_q1 %>%
 ```
 
     ##      lo_q1    hi_q1
-    ## 1 3.024026 3.615974
+    ## 1 2.996422 3.203578
 
 **Observations**:
 
@@ -458,7 +459,7 @@ df_q1 %>%
   - (Bootstrap CI: yes or no?) Yes
   - (CLT CI: yes or no?) Yes
 - How closely do your bootstrap CI and CLT CI agree?
-  - Very close. They both have a difference of 0.001349.
+  - Very close. They both have a difference of 0.000422
 - Comment on the width of your CI(s). Would your estimate of $\pi$ be
   good enough for roughly estimating an area (e.g., to buy enough paint
   for an art project)? Would your estimate of $\pi$ be good enough for

@@ -117,7 +117,8 @@ Pick a sample size $n$ and generate $n$ points *uniform randomly* in the square 
 
 ```{r q1-task}
 ## TASK: Choose a sample size and generate samples
-n <- 100  # Choose a sample size
+set.seed(101)
+n <- 1000  # Choose a sample size
 df_q1 <- data.frame(
   x = runif(n, min = 0, max = 1),
   y = runif(n, min = 0, max = 1))  # Generate the data
@@ -260,7 +261,7 @@ df_q4 %>%
 *Observations*
 
 - What is a range of plausible values, based on the sampling distribution you've generated?
-  - \~2.75-3.85
+  - \~2.95-3.3
 
 ### **q5** Bootstrap percentile confidence interval
 
@@ -305,7 +306,7 @@ df_q1 %>%
   - (Bootstrap CI: yes or no?) Yes
   - (CLT CI: yes or no?) Yes
 - How closely do your bootstrap CI and CLT CI agree?
-  - Very close. They both have a difference of 0.001349.
+  - Very close. They both have a difference of 0.000422
 - Comment on the width of your CI(s). Would your estimate of $\pi$ be good enough for roughly estimating an area (e.g., to buy enough paint for an art project)? Would your estimate of $\pi$ be good enough for precisely calculating a trajectory (e.g., sending a rocket into orbit)?
   - For rough, yeah. Based on the lower bound being much closer to pi, my estimate would probably be a bit high but that would just mean I have a bit of extra paint which would be fine. Worst case, I have to buy a bit more paint but it's not that serious.
   - For precise, absolutely not. You want to know that exact value in that situation and the bounds are not close enough to have enough confidence.
