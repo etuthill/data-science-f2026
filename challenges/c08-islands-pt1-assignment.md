@@ -130,7 +130,9 @@ you still need to count, because your numbers *will* be different!
   - 99.68%
 - Are there any sources of *real* uncertainty in the percent occupied
   you calculated?
-  - No
+  - Yes. Islanders can move in and out of homes over time so the number
+    of empty houses changes. This means that the percentage occupied is
+    only accurate for the point in time when I counted the homes
 - Are there any sources of *erroneous* uncertainty in the percent
   occupied you calculated?
   - No, unless I counted wrong but I don’t think I did.
