@@ -317,7 +317,7 @@ df_q3
 ```
 
     ##   pi_est
-    ## 1    3.4
+    ## 1   3.32
 
 Use the following to check that you’ve used the correct variable names.
 (NB. This does not check correctness.)
@@ -398,7 +398,7 @@ df_q4 %>%
 
 - What is a range of plausible values, based on the sampling
   distribution you’ve generated?
-  - 2.9-3.85
+  - ~2.75-3.85
 
 ### **q5** Bootstrap percentile confidence interval
 
@@ -424,7 +424,7 @@ df_q5
     ## # A tibble: 1 × 2
     ##   pi_lo pi_up
     ##   <dbl> <dbl>
-    ## 1  3.08  3.68
+    ## 1  3.04   3.6
 
 ### **q6** CLT confidence interval
 
@@ -450,7 +450,7 @@ df_q1 %>%
 ```
 
     ##      lo_q1    hi_q1
-    ## 1 3.118651 3.681349
+    ## 1 3.024026 3.615974
 
 **Observations**:
 
