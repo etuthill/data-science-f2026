@@ -286,19 +286,20 @@ variables; think about using different aesthetics or facets.
 ## TASK: Create a visual of gdpPercap vs continent
 
 
-gapminder %>%
-  filter(year %in% c(year_min, year_max)) %>%
-  {
-    ggplot(., aes(x = continent, y = gdpPercap)) +
-      geom_boxplot() +
-      geom_point(
-        data = . %>% filter(country %in% 
-          c("Canada", "United States", "Kuwait", "Haiti")),
-        aes(color = country)
-      ) +
-      scale_y_log10() +
-      facet_wrap(~year)
-  }
+df <- gapminder %>%
+  filter(year %in% c(year_min, year_max))
+
+df_highlight <- df %>%
+  filter(country %in% c("Canada", "United States", "Kuwait", "Haiti"))
+
+ggplot(df, aes(x = continent, y = gdpPercap)) +
+  geom_boxplot() +
+  geom_point(
+    data = df_highlight,
+    aes(color = country)
+  ) +
+  scale_y_log10() +
+  facet_wrap(~year)
 ```
 
 ![](c04-gapminder-assignment_files/figure-gfm/q4-task-1.png)<!-- -->
