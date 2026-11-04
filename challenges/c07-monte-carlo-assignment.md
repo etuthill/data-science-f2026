@@ -393,7 +393,7 @@ df_q4 %>%
 
     ## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 
-![](c07-monte-carlo-assignment_files/figure-gfm/q4-task-1.png)<!-- -->
+![](c07-monte-carlo-assignment_files/figure-gfm/q4-task-1-revised.png)<!-- -->
 
 *Observations*
 
