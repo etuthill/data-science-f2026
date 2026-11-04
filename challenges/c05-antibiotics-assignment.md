@@ -297,7 +297,7 @@ df_anti_pivot %>%
     scale_y_log10()
 ```
 
-![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1-1-1.png)<!-- -->
+![](c05-antibiotics-assignment_files/figure-gfm/q1.5-1-1.png)<!-- -->
 
 ``` r
 df_anti_pivot %>%
