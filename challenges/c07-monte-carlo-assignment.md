@@ -199,8 +199,8 @@ square $x \in [0, 1]$ and $y \in [0, 1]$.
 ## TASK: Choose a sample size and generate samples
 n <- 100  # Choose a sample size
 df_q1 <- data.frame(
-            x = runif(n, min = 0, max = 1),
-            y = runif(n, min = 0, max = 1))  # Generate the data
+  x = runif(n, min = 0, max = 1),
+  y = runif(n, min = 0, max = 1))  # Generate the data
 ```
 
 Use the following to check that you’ve used the correct variable names.
@@ -317,7 +317,7 @@ df_q3
 ```
 
     ##   pi_est
-    ## 1    2.8
+    ## 1    3.4
 
 Use the following to check that you’ve used the correct variable names.
 (NB. This does not check correctness.)
@@ -366,9 +366,10 @@ estimate. Answer the questions below.
 
 ``` r
 ## TASK: Finish the code below
+set.seed(101)
 df_q4 <- 
   df_q1 %>% 
-  bootstraps(., times = 1000) %>% 
+  bootstraps(times = 1000) %>% 
   mutate(
     pi_est = map_dbl(
       splits,
@@ -397,7 +398,7 @@ df_q4 %>%
 
 - What is a range of plausible values, based on the sampling
   distribution you’ve generated?
-  - 3-3.7
+  - 2.9-3.85
 
 ### **q5** Bootstrap percentile confidence interval
 
@@ -423,7 +424,7 @@ df_q5
     ## # A tibble: 1 × 2
     ##   pi_lo pi_up
     ##   <dbl> <dbl>
-    ## 1  2.44  3.16
+    ## 1  3.08  3.68
 
 ### **q6** CLT confidence interval
 
@@ -442,14 +443,14 @@ done something *wrong* in one of the tasks….
 df_q1 %>%
   summarize(
     lo_q1 = mean(stat(x, y)) -
-      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(100),
+      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(n()),
     hi_q1 = mean(stat(x, y)) +
-      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(100)
+      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(n())
   )
 ```
 
     ##      lo_q1    hi_q1
-    ## 1 2.438923 3.161077
+    ## 1 3.118651 3.681349
 
 **Observations**:
 

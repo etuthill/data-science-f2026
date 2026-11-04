@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|-------------------|-----------------------------|-------------------------|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -119,8 +119,8 @@ Pick a sample size $n$ and generate $n$ points *uniform randomly* in the square 
 ## TASK: Choose a sample size and generate samples
 n <- 100  # Choose a sample size
 df_q1 <- data.frame(
-            x = runif(n, min = 0, max = 1),
-            y = runif(n, min = 0, max = 1))  # Generate the data
+  x = runif(n, min = 0, max = 1),
+  y = runif(n, min = 0, max = 1))  # Generate the data
 ```
 
 Use the following to check that you've used the correct variable names. (NB. This does not check correctness.)
@@ -186,7 +186,7 @@ print("Your assertions passed, but make sure they're checking the right thing!")
 *Observations*
 
 - You chose a correct value of `stat(x, y)` when `x, y` is *outside* the circle. Why did you choose this value?
-  -  I chose x = 0.9 and y = 0.9 because 0.9\^2 + 0.9\^2 = 1.62 \> 1 so the point is outside the circle.
+  - I chose x = 0.9 and y = 0.9 because 0.9\^2 + 0.9\^2 = 1.62 \> 1 so the point is outside the circle.
 - You chose a correct value of `stat(x, y)` when `x, y` is *inside* the circle. Why did you choose this value?
   - I chose x = 0.5 and y = 0.5 because 0.5\^2 + 0.5\^2 = 0.5 \<= 1 so the point is inside the circle.
 
@@ -233,9 +233,10 @@ Complete the code below to perform a bootstrap resample of your $\pi$ estimate. 
 
 ```{r q4-task}
 ## TASK: Finish the code below
+set.seed(101)
 df_q4 <- 
   df_q1 %>% 
-  bootstraps(., times = 1000) %>% 
+  bootstraps(times = 1000) %>% 
   mutate(
     pi_est = map_dbl(
       splits,
@@ -259,7 +260,7 @@ df_q4 %>%
 *Observations*
 
 - What is a range of plausible values, based on the sampling distribution you've generated?
-  - 3-3.7
+  - 2.9-3.85
 
 ### **q5** Bootstrap percentile confidence interval
 
@@ -292,9 +293,9 @@ Compute a CLT-based confidence interval for $\pi$ at the 95% confidence level (`
 df_q1 %>%
   summarize(
     lo_q1 = mean(stat(x, y)) -
-      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(100),
+      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(n()),
     hi_q1 = mean(stat(x, y)) +
-      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(100)
+      qnorm(1 - (1 - 0.95) / 2) * sd(stat(x, y)) / sqrt(n())
   )
 ```
 
