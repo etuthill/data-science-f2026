@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -177,19 +177,20 @@ gapminder %>%
 ## TASK: Create a visual of gdpPercap vs continent
 
 
-gapminder %>%
-  filter(year %in% c(year_min, year_max)) %>%
-  {
-    ggplot(., aes(x = continent, y = gdpPercap)) +
-      geom_boxplot() +
-      geom_point(
-        data = . %>% filter(country %in% 
-          c("Canada", "United States", "Kuwait", "Haiti")),
-        aes(color = country)
-      ) +
-      scale_y_log10() +
-      facet_wrap(~year)
-  }
+df <- gapminder %>%
+  filter(year %in% c(year_min, year_max))
+
+df_highlight <- df %>%
+  filter(country %in% c("Canada", "United States", "Kuwait", "Haiti"))
+
+ggplot(df, aes(x = continent, y = gdpPercap)) +
+  geom_boxplot() +
+  geom_point(
+    data = df_highlight,
+    aes(color = country)
+  ) +
+  scale_y_log10() +
+  facet_wrap(~year)
 ```
 
 **Observations**:
