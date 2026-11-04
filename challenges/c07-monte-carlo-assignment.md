@@ -399,7 +399,7 @@ df_q4 %>%
 
 - What is a range of plausible values, based on the sampling
   distribution you’ve generated?
-  - ~2.95-3.3
+  - ~2.95-3.27
 
 ### **q5** Bootstrap percentile confidence interval
 
