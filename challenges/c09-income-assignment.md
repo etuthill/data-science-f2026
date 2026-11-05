@@ -530,6 +530,7 @@ States: Pose your own question and try to answer it with the data.
 ``` r
 ## TODO: Pose and answer your own question about the data
 
+
 df_q8 <-
   df_income %>%
   select(Geography,
@@ -545,7 +546,8 @@ df_q8 <-
   mutate(
     single_female_income = as.numeric(single_female_income),
     single_male_income = as.numeric(single_male_income)
-  )
+  ) %>%
+  left_join(df_pop, by = "Geography") 
 ```
 
     ## Warning: There were 2 warnings in `mutate()`.
@@ -560,8 +562,15 @@ df_q8 %>%
 ggplot(aes(x = single_female_income, y = single_male_income)) +
   geom_point() +
   geom_abline(
-    slope = 1, intercept = 0, linetype = "dashed", color = "red")
+    slope = 1, intercept = 0, linetype = "dashed", color = "red", linewidth = 1.2) +
+  geom_smooth()+
+  labs(title = "Single Male vs Female Income Median by County")
 ```
+
+    ## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_smooth()`).
 
     ## Warning: Removed 17 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
@@ -573,23 +582,23 @@ df_q8 %>%
   filter(
     single_male_income < single_female_income - 10000) %>%
   mutate(income_gap = single_female_income - single_male_income) %>%
-  select(county, income_gap, single_female_income, single_male_income) %>%
-  arrange(desc(income_gap))
+  select(county, income_gap, single_female_income, population_estimate, single_male_income) %>%
+  arrange(desc(income_gap)) 
 ```
 
-    ## # A tibble: 28 × 4
-    ##    county                     income_gap single_female_income single_male_income
-    ##    <chr>                           <dbl>                <dbl>              <dbl>
-    ##  1 San Francisco County, Cal…      21547                74021              52474
-    ##  2 Eagle County, Colorado          17109                55923              38814
-    ##  3 Aleutians East Borough, A…      15417                38750              23333
-    ##  4 Bristol Bay Borough, Alas…      15000                57500              42500
-    ##  5 Teton County, Wyoming           14697                50947              36250
-    ##  6 Gunnison County, Colorado       13894                35129              21235
-    ##  7 Roberts County, Texas           13750                59375              45625
-    ##  8 Manassas city, Virginia         13012                47371              34359
-    ##  9 Delta County, Texas             12917                36250              23333
-    ## 10 Gilpin County, Colorado         12846                50096              37250
+    ## # A tibble: 28 × 5
+    ##    county income_gap single_female_income population_estimate single_male_income
+    ##    <chr>       <dbl>                <dbl>               <dbl>              <dbl>
+    ##  1 San F…      21547                74021              870044              52474
+    ##  2 Eagle…      17109                55923               54357              38814
+    ##  3 Aleut…      15417                38750                3425              23333
+    ##  4 Brist…      15000                57500                 890              42500
+    ##  5 Teton…      14697                50947               23059              36250
+    ##  6 Gunni…      13894                35129               16537              21235
+    ##  7 Rober…      13750                59375                 885              45625
+    ##  8 Manas…      13012                47371               41457              34359
+    ##  9 Delta…      12917                36250                5215              23333
+    ## 10 Gilpi…      12846                50096                5924              37250
     ## # ℹ 18 more rows
 
 ``` r
@@ -597,43 +606,106 @@ df_q8 %>%
   filter(
     single_female_income < single_male_income - 2000) %>%
   mutate(income_gap = single_male_income - single_female_income) %>%
-  select(county, income_gap, single_male_income, single_female_income) %>%
+  select(county, income_gap, population_estimate, single_male_income, single_female_income) %>%
   arrange(desc(income_gap))
 ```
 
-    ## # A tibble: 8 × 4
-    ##   county                      income_gap single_male_income single_female_income
-    ##   <chr>                            <dbl>              <dbl>                <dbl>
-    ## 1 Trousdale County, Tennessee       5544              27772                22228
-    ## 2 Borden County, Texas              3750              45417                41667
-    ## 3 Menard County, Texas              3137              20069                16932
-    ## 4 Manassas Park city, Virgin…       2950              62950                60000
-    ## 5 Adair County, Missouri            2734              19896                17162
-    ## 6 Walker County, Texas              2356              19779                17423
-    ## 7 Golden Valley County, Nort…       2054              19432                17378
-    ## 8 Prince Edward County, Virg…       2028              25147                23119
+    ## # A tibble: 8 × 5
+    ##   county  income_gap population_estimate single_male_income single_female_income
+    ##   <chr>        <dbl>               <dbl>              <dbl>                <dbl>
+    ## 1 Trousd…       5544                9573              27772                22228
+    ## 2 Borden…       3750                 665              45417                41667
+    ## 3 Menard…       3137                2123              20069                16932
+    ## 4 Manass…       2950               16423              62950                60000
+    ## 5 Adair …       2734               25325              19896                17162
+    ## 6 Walker…       2356               71539              19779                17423
+    ## 7 Golden…       2054                1882              19432                17378
+    ## 8 Prince…       2028               22956              25147                23119
+
+``` r
+top_female_gaps <- df_q8 %>%
+  mutate(
+    income_gap = single_female_income - single_male_income
+  ) %>%
+  filter(income_gap > 0) %>%
+  arrange(desc(income_gap)) %>%
+  slice_head(n = 10) %>%
+  select(
+    County = county,
+    "Income Gap" = income_gap,
+    Population = population_estimate
+  )
+
+top_female_gaps
+```
+
+    ## # A tibble: 10 × 3
+    ##    County                           `Income Gap` Population
+    ##    <chr>                                   <dbl>      <dbl>
+    ##  1 San Francisco County, California        21547     870044
+    ##  2 Eagle County, Colorado                  17109      54357
+    ##  3 Aleutians East Borough, Alaska          15417       3425
+    ##  4 Bristol Bay Borough, Alaska             15000        890
+    ##  5 Teton County, Wyoming                   14697      23059
+    ##  6 Gunnison County, Colorado               13894      16537
+    ##  7 Roberts County, Texas                   13750        885
+    ##  8 Manassas city, Virginia                 13012      41457
+    ##  9 Delta County, Texas                     12917       5215
+    ## 10 Gilpin County, Colorado                 12846       5924
+
+``` r
+top_male_gaps <- df_q8 %>%
+  mutate(
+    income_gap = single_male_income - single_female_income
+  ) %>%
+  filter(income_gap > 0) %>%
+  arrange(desc(income_gap)) %>%
+  slice_head(n = 10) %>%
+  select(
+    County = county,
+    "Income Gap" = income_gap,
+    Population = population_estimate
+  )
+top_male_gaps
+```
+
+    ## # A tibble: 10 × 3
+    ##    County                             `Income Gap` Population
+    ##    <chr>                                     <dbl>      <dbl>
+    ##  1 Trousdale County, Tennessee                5544       9573
+    ##  2 Borden County, Texas                       3750        665
+    ##  3 Menard County, Texas                       3137       2123
+    ##  4 Manassas Park city, Virginia               2950      16423
+    ##  5 Adair County, Missouri                     2734      25325
+    ##  6 Walker County, Texas                       2356      71539
+    ##  7 Golden Valley County, North Dakota         2054       1882
+    ##  8 Prince Edward County, Virginia             2028      22956
+    ##  9 Pope County, Illinois                      1875       4249
+    ## 10 Harrisonburg city, Virginia                1699      53391
 
 **Observations**:
 
 - Overall, there is a positive association, where in counties that have
   higher single female income also have higher single male income.
   However, a significant portion of the data in under the dashed line,
-  which indicates that in a significant number of counties, single women
-  have a slightly lower income than single men. The biggest differences
-  in favor of single women are in places like San Francisco County,
-  California, and Eagle County, Colorado. A few smaller counties in
-  Alaska and Colorado also stand out. On the other hand the biggest
+  which indicates that in a significant number of counties, single men
+  have a slightly lower income than single wommen. The biggest
+  differences in favor of single women are in places like San Francisco
+  County, California, and Eagle County, Colorado. A few smaller counties
+  in Alaska and Colorado also stand out. On the other hand the biggest
   differences in favor of single men are in Trousdale County, Tennessee,
   and Borden County, Texas. Overall, the male dominated outliers seem to
-  have smaller income gaps than the female dominated ones. There are a
-  number of possible explanations for this. One could be the industries
-  each county. Differences in education, age, and the types of people
-  moving into certain areas could also contribute. Also, many of the
-  outlier counties have relatively small populations, meaning that a
-  small number of high earners could have a larger impact on the median
-  income. It would be interesting to do a deeper dive into these
-  counties beyond just looking at their medians to figure out what’s
-  going on.
+  have smaller income gaps than the female dominated ones. This is
+  seemingly antithetical to the known and studied gender pay gap. This
+  pattern appears to contradict the well established gender pay gap. The
+  most likely explanation is the dataset’s limitations. Income can only
+  be separated by gender for single-person households, meaning that
+  these results don’t completely represent the broader population of
+  working men and women. Differences in things like industry and age may
+  also add to the pattern. As a resutl, while this analysis shows
+  differences in income between single men and women across counties, it
+  cannot establish whether these differences reflect broader gender
+  discrimination or the broader gender pay gap.
 
 Ideas:
 

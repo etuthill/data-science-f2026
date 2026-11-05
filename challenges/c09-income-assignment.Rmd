@@ -26,7 +26,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category | Needs Improvement | Satisfactory |
-|----|----|----|
+|------------------------|------------------------|------------------------|
 | Effort | Some task **q**'s left unattempted | All task **q**'s attempted |
 | Observed | Did not document observations, or observations incorrect | Documented correct observations based on analysis |
 | Supported | Some observations not clearly supported by analysis | All observations clearly supported by analysis (table, graph, etc.) |
@@ -309,6 +309,7 @@ Now it's your turn! You have income data for every county in the United States: 
 ```{r q8-task}
 ## TODO: Pose and answer your own question about the data
 
+
 df_q8 <-
   df_income %>%
   select(Geography,
@@ -324,34 +325,67 @@ df_q8 <-
   mutate(
     single_female_income = as.numeric(single_female_income),
     single_male_income = as.numeric(single_male_income)
-  )
+  ) %>%
+  left_join(df_pop, by = "Geography") 
 
 df_q8 %>%
 ggplot(aes(x = single_female_income, y = single_male_income)) +
   geom_point() +
   geom_abline(
-    slope = 1, intercept = 0, linetype = "dashed", color = "red")
+    slope = 1, intercept = 0, linetype = "dashed", color = "red", linewidth = 1.2) +
+  geom_smooth()+
+  labs(title = "Single Male vs Female Income Median by County")
 
 df_q8 %>%
   filter(
     single_male_income < single_female_income - 10000) %>%
   mutate(income_gap = single_female_income - single_male_income) %>%
-  select(county, income_gap, single_female_income, single_male_income) %>%
-  arrange(desc(income_gap))
+  select(county, income_gap, single_female_income, population_estimate, single_male_income) %>%
+  arrange(desc(income_gap)) 
 
 df_q8 %>%
   filter(
     single_female_income < single_male_income - 2000) %>%
   mutate(income_gap = single_male_income - single_female_income) %>%
-  select(county, income_gap, single_male_income, single_female_income) %>%
+  select(county, income_gap, population_estimate, single_male_income, single_female_income) %>%
   arrange(desc(income_gap))
+
+
+top_female_gaps <- df_q8 %>%
+  mutate(
+    income_gap = single_female_income - single_male_income
+  ) %>%
+  filter(income_gap > 0) %>%
+  arrange(desc(income_gap)) %>%
+  slice_head(n = 10) %>%
+  select(
+    County = county,
+    "Income Gap" = income_gap,
+    Population = population_estimate
+  )
+
+top_female_gaps
+
+top_male_gaps <- df_q8 %>%
+  mutate(
+    income_gap = single_male_income - single_female_income
+  ) %>%
+  filter(income_gap > 0) %>%
+  arrange(desc(income_gap)) %>%
+  slice_head(n = 10) %>%
+  select(
+    County = county,
+    "Income Gap" = income_gap,
+    Population = population_estimate
+  )
+top_male_gaps
 
 
 ```
 
 **Observations**:
 
-- Overall, there is a positive association, where in counties that have higher single female income also have higher single male income. However, a significant portion of the data in under the dashed line, which indicates that in a significant number of counties, single women have a slightly lower income than single men. The biggest differences in favor of single women are in places like San Francisco County, California, and Eagle County, Colorado. A few smaller counties in Alaska and Colorado also stand out. On the other hand the biggest differences in favor of single men are in Trousdale County, Tennessee, and Borden County, Texas. Overall, the male dominated outliers seem to have smaller income gaps than the female dominated ones. There are a number of possible explanations for this. One could be the industries each county. Differences in education, age, and the types of people moving into certain areas could also contribute. Also, many of the outlier counties have relatively small populations, meaning that a small number of high earners could have a larger impact on the median income. It would be interesting to do a deeper dive into these counties beyond just looking at their medians to figure out what's going on.
+- Overall, there is a positive association, where in counties that have higher single female income also have higher single male income. However, a significant portion of the data in under the dashed line, which indicates that in a significant number of counties, single men have a slightly lower income than single wommen. The biggest differences in favor of single women are in places like San Francisco County, California, and Eagle County, Colorado. A few smaller counties in Alaska and Colorado also stand out. On the other hand the biggest differences in favor of single men are in Trousdale County, Tennessee, and Borden County, Texas. Overall, the male dominated outliers seem to have smaller income gaps than the female dominated ones. This is seemingly antithetical to the known and studied gender pay gap. This pattern appears to contradict the well established gender pay gap. The most likely explanation is the dataset's limitations. Income can only be separated by gender for single-person households, meaning that these results don't completely represent the broader population of working men and women. Differences in things like industry and age may also add to the pattern. As a resutl, while this analysis shows differences in income between single men and women across counties, it cannot establish whether these differences reflect broader gender discrimination or the broader gender pay gap.
 
 Ideas:
 
